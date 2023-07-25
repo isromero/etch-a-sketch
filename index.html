@@ -9,12 +9,15 @@
 <body>
     <div id="container">
         <div id="controls">
+            <label for="color-picker">Select a color:</label>
+            <input  id="color-picker" type="color">
             <button id="paint-btn">Paint</button>
+            <button id="rainbow-btn">Rainbow Paint</button>
             <button id="erase-btn">Erase</button>
             <button id="clear-btn">Clear All</button>
             <label for="grid">16x16</label>
             <br>
-            <input type="range" id="grid" name="grid" min="1" max="64" value="16">
+            <input type="range" id="grid" name="grid" min="2" max="32" value="16" step="2">
         </div>
         <div id="etch-a-sketch">
             

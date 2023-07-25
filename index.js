@@ -1,19 +1,19 @@
 const etchASketch = document.querySelector('#etch-a-sketch');
 let isDrawing = false;
 let isErasing = false;
+let currentColor = 'black';
 
 const   createGrid = (x, y) => {
     let totalCells = x * y;
 
     const etchASketchSize = 400 / y;
-    while(totalCells > 0) {
+    for( ; totalCells > 0; totalCells--) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
         cell.classList.add('brush-cursor');
         cell.style.width = `${etchASketchSize}px`;
         cell.style.height = `${etchASketchSize}px`;
         etchASketch.appendChild(cell);
-        totalCells--;
     }
 }
 
@@ -29,17 +29,24 @@ const   changeGrid = () => {
             cell.remove();
         });
         createGrid(selectedValue, selectedValue);
-        paint();
         clear();
         erase();
+        rainbowPaint();
+        currentColor = changeColor();
+        paint();
     });
-    
+}
+
+const   changeColor = () => {
+    const inputColor = document.querySelector('#color-picker');
+    currentColor = inputColor.value || 'black';
+    return (currentColor);
 }
 
 const   paint = () => {
     const cells = document.querySelectorAll('.cell');
     const body = document.querySelector('body');
-    const button = document.querySelector('#paint-btn');
+    etchASketch.style.cursor = 'url("./cursors/paint-brush.cur"), auto'
     cells.forEach(cell => {
         body.addEventListener('mousedown', () => {
             isDrawing = true;
@@ -49,7 +56,32 @@ const   paint = () => {
         });
         cell.addEventListener('mouseover', () => {
             if(isDrawing) {
-                cell.style.backgroundColor = 'black';
+                cell.style.backgroundColor = changeColor();
+            }
+        });
+    });
+}
+
+const randomBetween = (min, max) => min + Math.floor(Math.random() * (max - min + 1));
+
+const   rainbowPaint = () => {
+    const cells = document.querySelectorAll('.cell');
+    const body = document.querySelector('body');
+    etchASketch.style.cursor = 'url("./cursors/paint-brush.cur"), auto'
+    cells.forEach(cell => {
+        body.addEventListener('mousedown', () => {
+            isDrawing = true;
+        });
+        body.addEventListener('mouseup', () => {
+            isDrawing = false;
+        });
+        cell.addEventListener('mouseover', () => {
+            if(isDrawing) {
+                const r = randomBetween(0, 255);
+                const g = randomBetween(0, 255);
+                const b = randomBetween(0, 255);
+                const rgb = `rgb(${r},${g},${b})`;
+                cell.style.backgroundColor = rgb;
             }
         });
     });
@@ -66,34 +98,33 @@ const   clear = () => {
 }
 
 const   erase = () => {
-    const button = document.querySelector('#erase-btn');
     const cells = document.querySelectorAll('.cell');
     const body = document.querySelector('body');
-    button.addEventListener('click', () => {
-        isDrawing = false;
-        cells.forEach(cell => {
-            body.addEventListener('mousedown', () => {
-                isErasing = true;
-            });
-            body.addEventListener('mouseup', () => {
-                isErasing = false;
-            });
-            cell.addEventListener('mouseover', () => {
-                if(isErasing) {
-                    cell.style.backgroundColor = 'white';
-                }
-            });
+    isDrawing = false;
+    etchASketch.style.cursor = 'url("./cursors/eraser.cur"), auto'
+    cells.forEach(cell => {
+        body.addEventListener('mousedown', () => {
+            isErasing = true;
+        });
+        body.addEventListener('mouseup', () => {
+            isErasing = false;
+        });
+        cell.addEventListener('mouseover', () => {
+            if(isErasing) {
+                cell.style.backgroundColor = 'white';
+            }
         });
     });
 }
 
 createGrid(16, 16);
+paint();
 const paintButton = document.querySelector('#paint-btn');
+const eraseButton = document.querySelector('#erase-btn');
+const rainbowButton = document.querySelector('#rainbow-btn');
 
-document.addEventListener('DOMContentLoaded', () => {
-    paint();
-    paintButton.addEventListener('click', paint);
-});
+paintButton.addEventListener('click', paint);
 clear();
-erase();
+eraseButton.addEventListener('click', erase);
+rainbowButton.addEventListener('click', rainbowPaint);
 changeGrid();
