@@ -5,24 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Etch-A-Sketch</title>
     <link rel="stylesheet" href="./style.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="container">
         <div id="controls">
-            <label for="color-picker">Select a color:</label>
+            <label for="color-picker"></label>
             <input  id="color-picker" type="color">
             <button id="paint-btn">Paint</button>
             <button id="rainbow-btn">Rainbow Paint</button>
             <button id="erase-btn">Erase</button>
             <button id="clear-btn">Clear All</button>
             <label for="grid">16x16</label>
-            <br>
             <input type="range" id="grid" name="grid" min="2" max="32" value="16" step="2">
         </div>
-        <div id="etch-a-sketch">
-            
-        </div>
+        <div id="etch-a-sketch"></div>
     </div>
+    <footer>
+        <p>Created by isromero <a href="https://github.com/isromero"><i class="fab fa-github" style="color: #000000;"></i></a></p>
+    </footer>
 </body>
 <script src="./index.js"></script>
 </html>

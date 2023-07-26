@@ -6,7 +6,8 @@ let currentColor = 'black';
 const   createGrid = (x, y) => {
     let totalCells = x * y;
 
-    const etchASketchSize = 400 / y;
+    const etchASketchWidth = etchASketch.offsetWidth;
+    const etchASketchSize = etchASketchWidth / y;
     for( ; totalCells > 0; totalCells--) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
@@ -128,3 +129,37 @@ clear();
 eraseButton.addEventListener('click', erase);
 rainbowButton.addEventListener('click', rainbowPaint);
 changeGrid();
+
+const mediaQuery = window.matchMedia('(max-width: 900px)');
+mediaQuery.addEventListener('change', (event) => {
+    if (event.matches) {
+        // Si el ancho de la ventana es menor o igual a 900px, cambiar el tamaño de etch-a-sketch
+        etchASketch.style.width = '400px';
+        etchASketch.style.height = '400px';
+
+        // Limpiar el grid y crear uno nuevo con el nuevo tamaño
+        const gridSize = 16; // Puedes ajustar el tamaño del grid según tus necesidades
+        const etchASketchWidth = etchASketch.offsetWidth;
+        etchASketch.innerHTML = '';
+        createGrid(gridSize, gridSize, etchASketchWidth);
+    }
+    clear();
+    paint();
+});
+
+const mediaQuery2 = window.matchMedia('(min-width: 900px)');
+mediaQuery2.addEventListener('change', (event) => {
+    if (event.matches) {
+        // Si el ancho de la ventana es menor o igual a 900px, cambiar el tamaño de etch-a-sketch
+        etchASketch.style.width = '600px';
+        etchASketch.style.height = '600px';
+
+        // Limpiar el grid y crear uno nuevo con el nuevo tamaño
+        const gridSize = 16; // Puedes ajustar el tamaño del grid según tus necesidades
+        const etchASketchWidth = etchASketch.offsetWidth;
+        etchASketch.innerHTML = '';
+        createGrid(gridSize, gridSize, etchASketchWidth);
+    }
+    
+    paint();
+});
